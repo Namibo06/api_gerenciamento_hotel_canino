@@ -5,5 +5,6 @@ const UserController = require('../controllers/UserController');
 router.get('/',UserController.listUsers);
 router.get('/:uuid',UserController.getUserByUUID);
 router.post('/',UserController.createUser);
+router.patch('/:uuid',UserController.updateUser);
 
 module.exports = router;
