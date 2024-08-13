@@ -10,6 +10,27 @@ exports.listUsers = async (req,res) => {
     }
 };
 
+exports.getUserByUUID = async (req,res) => {
+    const uuid = req.params.uuid;
+
+    try{
+        if(!validator.isUUID(uuid)){
+            return res.status(400).json({message: "formato de UUID inválido"});  
+        }
+
+        const user = await User.findByPk(uuid);
+
+        if(!user){
+            return res.status(404).json({message: "Usuário não encontrado"});
+        }
+
+        return res.status(200).json({user: user});
+
+    }catch(error){
+        return res.status(500).json({message: "Erro: " + error.message});
+    }
+}
+
 exports.createUser = async (req,res) => {
     const firstName = req.body.first_name;
     const lastName = req.body.last_name;
