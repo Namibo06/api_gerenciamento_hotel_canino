@@ -73,7 +73,7 @@ exports.updateUser = async (req,res) => {
 
         return res.status(200).json({message: "Usuário atualizado com sucesso"});
     }catch(error){
-        return res.status(500).json({message: "Erro: " + error});
+        console.log("Erro: " + error.message);
     }
 };
 
