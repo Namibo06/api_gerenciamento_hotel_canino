@@ -1,10 +1,11 @@
-const { Sequelize,DataTypes } = require('sequelize');
-const sequelize = require('../config/Database');
+const { Sequelize,DataTypes, UUIDV4 } = require('sequelize');
+const {sequelize} = require('../config/Database');
 
 const user = sequelize.define('tb_user',{
     id:{
-        type: DataTypes.UUIDV4,
-        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: UUIDV4,
     },
     first_name:{
         type: DataTypes.STRING,
