@@ -30,8 +30,10 @@
 
 ------------------------------------------
 
+## Iniciar Servidor (Git bash)
+### No terminal digite ou cole ``npm run start``
+
+---------------------------------------------
+
 ## Swagger
 #### [Link Swagger]()
-
-//serão três tabelas,uma de user,owner(dono),dogs
-//porque user terá muita coisa tipo senha,token,coisas que owner não irá precisar pois não teráacesso ao sistema
