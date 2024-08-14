@@ -2,7 +2,8 @@ const Dog = require('../models/Dog');
 const { validationYearDog } = require('../utils/validationYearDog');
 const { validationPostage } = require('../utils/validationPostage');
 const { validateFormatUUID } = require('../utils/validationUUID');
-const { validateNameDogLength } = require('../utils/validationDogLength');
+const { validateDogLength } = require('../utils/validationDogLength');
+const { validateDogEmpty } = require('../utils/validationDogEmpty');
 const Owner = require('../models/Owner');
 
 exports.listDogs = async (req,res) => {
@@ -26,7 +27,7 @@ exports.createDog = async (req,res) => {
         const color = req.body.color;
         const postage = req.body.postage;
         const race = req.body.race;
-        const restrictions = req.body.restrictions;
+        //const restrictions = req.body.restrictions;
         const deficiency = req.body.deficiency;
         const owners = req.body.owners;
 
@@ -34,7 +35,9 @@ exports.createDog = async (req,res) => {
         if (res.headersSent) return;
         validationPostage(res,postage);
         if (res.headersSent) return;
-        validateNameDogLength(res,name);
+        validateDogLength(res,name,color,race);
+        if (res.headersSent) return;
+        validateDogEmpty(res,name,color,year,postage,deficiency);
         if (res.headersSent) return;
 
         let listOwner = [];
