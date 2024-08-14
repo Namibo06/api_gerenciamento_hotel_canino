@@ -60,6 +60,10 @@ exports.updateOwner = async (req,res) => {
     const email = req.body.email;
     const phone = req.body.phone;
 
+    const uuid = req.params.uuid;
+    validateFormatUUID(res,uuid);
+    if (res.headersSent) return;
+
     validateEmail(res,email);
     if (res.headersSent) return;
     validateLength(res,firstName,lastName,cpf,phone);
@@ -70,7 +74,7 @@ exports.updateOwner = async (req,res) => {
     try{
         const [updated] = await Owner.update(req.body,{
             where:{
-                id:req.params.uuid
+                id:uuid
             }
         });
     
@@ -85,6 +89,24 @@ exports.updateOwner = async (req,res) => {
 
 };
 
-/**validations */
+exports.deleteUser = async (req,res) => {
+    const uuid = req.params.uuid;
+    validateFormatUUID(res,uuid);
+    if(res.headersSent) return;
 
+    try{
+        const owner = await Owner.destroy({
+            where:{
+                id:uuid
+            }
+        });
 
+        if(!owner){
+            return res.status(404).json({message: "Dono não encontrado"});
+        }
+
+        return res.status(204).send();
+    }catch(error){
+        console.log("Erro: " + error);
+    }
+};
