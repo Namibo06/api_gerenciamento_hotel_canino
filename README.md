@@ -20,6 +20,11 @@
 
 -----------------------------------------------
 
+## Para instalar o pacote validator
+### ``npm install validator``
+
+-----------------------------------------------
+
 ## Instalar express - pg - sequelize
 ### ``npm install express pg sequelize``
 
@@ -27,3 +32,6 @@
 
 ## Swagger
 #### [Link Swagger]()
+
+//serão três tabelas,uma de user,owner(dono),dogs
+//porque user terá muita coisa tipo senha,token,coisas que owner não irá precisar pois não teráacesso ao sistema
