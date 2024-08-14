@@ -3,6 +3,7 @@ const validator = require('validator');
 const { validateEmail } = require('../utils/validationEmail');
 const { validateRequestLengthInCreate,validateRequestLength } = require('../utils/validationLength');
 const { validateRequestEmptyInCreate,validateRequestEmptyInUpdate } = require('../utils/validationEmpty');
+const { validateFormatUUID } = require('../utils/validationUUID');
 
 exports.listUsers = async (req,res) => {
     try{
@@ -20,12 +21,10 @@ exports.listUsers = async (req,res) => {
 
 exports.getUserByUUID = async (req,res) => {
     const uuid = req.params.uuid;
+    validateFormatUUID(res,uuid);
+    if(res.headersSent) return;
 
     try{
-        if(!validator.isUUID(uuid)){
-            return res.status(400).json({message: "formato de UUID inválido"});  
-        }
-
         const user = await User.findByPk(uuid);
 
         if(!user){
@@ -33,7 +32,6 @@ exports.getUserByUUID = async (req,res) => {
         }
 
         return res.status(200).json({user: user});
-
     }catch(error){
         return res.status(500).json({message: "Erro: " + error.message});
     }
@@ -47,8 +45,11 @@ exports.createUser = async (req,res) => {
     const password = req.body.password;
 
     validateRequestEmptyInCreate(res,firstName,email,password);
+    if(res.headersSent) return;
     validateEmail(res,email);
+    if(res.headersSent) return;
     validateRequestLengthInCreate(res,firstName,lastName,phone,password);
+    if(res.headersSent) return;
 
     try{
         const user = await User.create(req.body);
@@ -64,14 +65,21 @@ exports.updateUser = async (req,res) => {
     const email = req.body.email;
     const phone = req.body.phone;
 
+    const uuid = req.params.uuid;
+    validateFormatUUID(uuid);
+    if(res.headersSent) return;
+
     validateEmail(res,email);
+    if(res.headersSent) return;
     validateRequestLength(res,firstName,lastName,phone);
+    if(res.headersSent) return;
     validateRequestEmptyInUpdate(res,firstName,email);
+    if(res.headersSent) return;
 
     try{
         const [updated] = await User.update(req.body,{
             where:{
-                id:req.params.uuid
+                id:uuid
             }
         });
 
@@ -87,12 +95,10 @@ exports.updateUser = async (req,res) => {
 
 exports.deleteUser = async (req,res) => {
     const uuid = req.params.uuid;
+    validateFormatUUID(uuid);
+    if(res.headersSent) return;
 
     try{
-        if(!validator.isUUID(uuid)){
-            return res.status(400).json({message: "Formato UUID inválido"});   
-        }
-
         const user = await User.destroy({
             where:{
                 id: uuid
