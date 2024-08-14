@@ -1,5 +1,5 @@
 const { Sequelize,DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../config/Database');
+const {sequelize} = require('../config/Database');
 
 const owner = sequelize.define('tb_owner',{
     id:{
