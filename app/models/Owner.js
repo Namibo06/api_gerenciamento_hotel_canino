@@ -1,5 +1,6 @@
 const { Sequelize,DataTypes, UUIDV4 } = require('sequelize');
 const {sequelize} = require('../config/Database');
+const dog = require('./Dog');
 
 const owner = sequelize.define('tb_owner',{
     id:{
@@ -30,5 +31,13 @@ const owner = sequelize.define('tb_owner',{
         allowNull: false,
     },
 });
+
+owner.associate = function(models){
+    owner.belongsToMany(models.dog,{
+        through:'tb_owner_dogs',
+        as: 'dog',
+        foreignKey: 'ownerId',
+    });
+};
 
 module.exports = owner;
