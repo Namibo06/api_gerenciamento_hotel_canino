@@ -5,7 +5,8 @@ const OwnerController = require('../controllers/OwnerController');
 router.get('/',OwnerController.listOwners);
 router.get('/:uuid',OwnerController.getOwnerByUUID);
 router.post('/',OwnerController.createOwner);
-router.patch('/:uuid',OwnerController.updateOwner);
+router.put('/:uuid',OwnerController.updateOwner);
+router.delete('/:uuid',OwnerController.deleteUser);
 
 
 module.exports = router;
