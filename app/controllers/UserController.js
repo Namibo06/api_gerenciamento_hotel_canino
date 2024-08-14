@@ -77,6 +77,31 @@ exports.updateUser = async (req,res) => {
     }
 };
 
+exports.deleteUser = async (req,res) => {
+    const uuid = req.params.uuid;
+
+    try{
+        if(!validator.isUUID(uuid)){
+            return res.status(400).json({message: "Formato UUID inválido"});   
+        }
+
+        const user = await User.destroy({
+            where:{
+                id: uuid
+            }
+        });
+
+        if(!user){
+            return res.status(404).json({message: "Usuário não encontrado"});
+        }
+
+        return res.status(204).send();
+    }catch(error){
+        console.log("Erro: " + error);
+    }
+};
+
+/*validations*/
 function validateEmail(res,email){
     if(!validator.isEmail(email)){
         return res.status(400).json({message: "Email inválido"});
