@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const validator = require('validator');
 
-exports.listUsers = async (req,res) => {
+async function listUsers(req,res) {
     try{
         const users = await User.findAll();
 
@@ -15,7 +15,7 @@ exports.listUsers = async (req,res) => {
     }
 };
 
-exports.getUserByUUID = async (req,res) => {
+async function getUserByUUID(req,res) {
     const uuid = req.params.uuid;
 
     try{
@@ -36,7 +36,7 @@ exports.getUserByUUID = async (req,res) => {
     }
 }
 
-exports.createUser = async (req,res) => {
+async function createUser(req,res) {
     const firstName = req.body.first_name;
     const lastName = req.body.last_name;
     const email = req.body.email;
@@ -55,7 +55,7 @@ exports.createUser = async (req,res) => {
     }
 };
 
-exports.updateUser = async (req,res) => {
+async function updateUser (req,res) {
     const firstName = req.body.first_name;
     const lastName = req.body.last_name;
     const email = req.body.email;
@@ -82,7 +82,7 @@ exports.updateUser = async (req,res) => {
     }
 };
 
-exports.deleteUser = async (req,res) => {
+async function deleteUser(req,res) {
     const uuid = req.params.uuid;
 
     try{
@@ -132,7 +132,7 @@ function validateRequestLength(res,firstName,lastName,phone){
 }
 
 function validateRequestLengthInCreate(res,firstName,lastName,phone,password){
-    validateRequestLength(res,firstName,lastName,phone,password);
+    validateRequestLength(res,firstName,lastName,phone);
 
     if(password.length < 8 || password.length > 32){
         return res.status(400).json({message: "Senha deve conter entre 8 e 32 caracteres"});
@@ -150,3 +150,14 @@ function validateRequestEmptyInUpdate(res,firstName,email){
         return res.status(400).json({message:"Campos obrigatórios vazios"});
     }
 }
+
+module.exports = {
+    listUsers,
+    getUserByUUID,
+    createUser,
+    updateUser,
+    deleteUser,
+    validateEmail,
+    validateRequestLength,
+    validateRequestEmptyInUpdate
+};
