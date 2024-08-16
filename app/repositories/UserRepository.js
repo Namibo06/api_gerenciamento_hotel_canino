@@ -28,4 +28,21 @@ module.exports = class UserRepository{
             }
         });
     }
+
+    async findByEmailAndPassword(email,password){
+        return await User.findOne({
+            where:{
+                email: email,
+                password: password
+            }
+        });
+    }
+
+    async updateToken(token,email){
+        return await User.update({token: token},{
+            where:{
+                email: email
+            }
+        });
+    }
 }
