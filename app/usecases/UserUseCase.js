@@ -62,7 +62,7 @@ module.exports = class UserUseCase{
         const updatedUser = await this.UserService.update(uuid,req.body);
 
         if(!updatedUser){
-            return res.status(400).json({message:"Houve falha ao tentar atualizar"});
+            return res.status(500).json({message:"Houve falha ao tentar atualizar"});
         }
 
         return updatedUser;
