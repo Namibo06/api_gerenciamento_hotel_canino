@@ -57,4 +57,3 @@ module.exports = class UserController{
         }
     };   
 }
-console.log('UserUseCase:', this.userUseCase);
