@@ -30,7 +30,7 @@ module.exports = class UserController{
     
     async createUser(req,res) {
         try{
-            const user = await User.create(req.body);
+            const user = await this.UserUseCase.createUser(req,res);
             return res.status(201).json({message:"Usuário criado com sucesso",user: user});
         }catch(error){
             console.log(error);
