@@ -13,8 +13,8 @@ module.exports = class UserService{
         return await this.UserRepository.findByUUID(uuid);
     }
 
-    async create(){
-        return await this.UserRepository.create(user);
+    async create(data){
+        return await this.UserRepository.create(data);
     }
 
     async update(uuid,user){
@@ -23,5 +23,13 @@ module.exports = class UserService{
 
     async delete(uuid){
         return await this.UserRepository.delete(uuid);
+    }
+
+    async findByEmailAndPassword(email,password){
+        return await this.UserRepository.findByEmailAndPassword(email,password);
+    }
+
+    async updateToken(token,email){
+        return await this.UserRepository.updateToken(token,email);
     }
 }
