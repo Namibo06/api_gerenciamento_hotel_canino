@@ -37,3 +37,6 @@
 
 ## Swagger
 #### [Link Swagger]()
+
+// adicionar o metodo para trocar senha do usuario
+//getUUID do owner,fica retornando null,sem registros
