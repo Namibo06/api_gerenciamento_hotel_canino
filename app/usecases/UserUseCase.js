@@ -4,6 +4,11 @@ const { validateEmail } = require('../utils/validationEmail');
 const { validateRequestLengthInCreate,validateRequestLength } = require('../utils/validationLength');
 const { validateRequestEmptyInCreate,validateRequestEmptyInUpdate } = require('../utils/validationEmpty');
 
+const bcrypt = require('bcrypt');
+
+//o quano torna imprevisivel
+const salt = bcrypt.genSaltSync(10);
+
 module.exports = class UserUseCase{
     constructor(){
         this.UserService = new UserService();
@@ -31,8 +36,18 @@ module.exports = class UserUseCase{
         return user;
     }
 
-    async createUser(res,user){
-        const { first_name, last_name, email, phone, password } = user;
+    async createUser(req,res){
+        const { first_name, last_name, email, phone, password } = req.body;
+
+        const encryptedPassword = bcrypt.hashSync(password,salt);
+        
+        const data = {
+            first_name,
+            last_name,
+            email,
+            phone,
+            password: encryptedPassword
+        };
     
         validateRequestEmptyInCreate(res,first_name,email,password);
         if(res.headersSent) return;
@@ -41,7 +56,7 @@ module.exports = class UserUseCase{
         validateRequestLengthInCreate(res,first_name,last_name,phone,password);
         if(res.headersSent) return;
 
-        const createdUser = await this.UserService.create(user);
+        const createdUser = await this.UserService.create(data);
         return createdUser;
     }
 
@@ -75,7 +90,7 @@ module.exports = class UserUseCase{
 
         const user = this.UserService.delete(uuid);
 
-        if(!user){
+        if(user.length === 0){
             return res.status(404).json({message: "Usuário não encontrado"});
         }
 
