@@ -30,6 +30,16 @@
 
 ------------------------------------------
 
+## Instalar JWT
+### ``npm install jsonwebtoken``
+
+------------------------------------------
+
+## Instalar ByCript
+### ``npm install bcrypt``
+
+------------------------------------------
+
 ## Iniciar Servidor (Git bash)
 ### No terminal digite ou cole ``npm run start``
 
@@ -39,4 +49,5 @@
 #### [Link Swagger]()
 
 // adicionar o metodo para trocar senha do usuario
-//getUUID do owner,fica retornando null,sem registros
+// getUUID do owner,fica retornando null,sem registros
+// adicionar retorno 404 no delete quando não achar o registr,no user tá assim
