@@ -21,6 +21,10 @@ module.exports = class UserService{
         return await this.UserRepository.update(uuid,user);
     }
 
+    async updatePassword(uuid,newPassword){
+        return await this.UserRepository.updatePassword(uuid,newPassword);
+    }
+
     async delete(uuid){
         return await this.UserRepository.delete(uuid);
     }

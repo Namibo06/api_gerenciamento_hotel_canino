@@ -3,6 +3,7 @@ const { validateFormatUUID } = require('../utils/validationUUID');
 const { validateEmail } = require('../utils/validationEmail');
 const { validateRequestLengthInCreate,validateRequestLength } = require('../utils/validationLength');
 const { validateRequestEmptyInCreate,validateRequestEmptyInUpdate } = require('../utils/validationEmpty');
+const { validatePasswordEmptyOrNull,validatePasswordLength } = require('../utils/validationPassword');
 
 const bcrypt = require('bcrypt');
 
@@ -66,6 +67,11 @@ module.exports = class UserUseCase{
         const uuid = req.params.uuid;
         validateFormatUUID(res,uuid);
         if(res.headersSent) return;
+
+        const findUser = await this.findUserByUUID(req,res);
+        if(!findUser){
+            return res.status(404).json({message: "Usuário não encontrado"});
+        }
     
         validateEmail(res,email);
         if(res.headersSent) return;
@@ -83,10 +89,38 @@ module.exports = class UserUseCase{
         return updatedUser;
     }
 
+    async updatePassword(req,res){
+        const uuid = req.params.uuid;
+        const newPassword = req.body.password;
+
+        const findUser = await this.findUserByUUID(req,res);
+        if(!findUser){
+            return res.status(404).json({message: "Usuário não encontrado"});
+        }
+
+        validatePasswordEmptyOrNull(res,newPassword);
+        if(res.headersSent) return;
+        validatePasswordLength(res,newPassword);
+        if(res.headersSent) return;
+
+        const updatePassword = await this.UserService.updatePassword(uuid,newPassword);
+
+        if(!updatePassword){
+            return res.status(500).json({message: "Houve falha ao tentar atualizar senha"});
+        }
+
+        return updatePassword;
+    }
+
     async deleteUser(req,res){
         const uuid = req.params.uuid;
         validateFormatUUID(res,uuid);
         if(res.headersSent) return;
+
+        const findUser = await this.findUserByUUID(req,res);
+        if(!findUser){
+            return res.status(404).json({message: "Usuário não encontrado"});
+        }
 
         const user = this.UserService.delete(uuid);
 

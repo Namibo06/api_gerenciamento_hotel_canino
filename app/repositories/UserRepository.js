@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const User = require('../models/User');
 
 module.exports = class UserRepository{
@@ -15,6 +16,14 @@ module.exports = class UserRepository{
 
     async update(uuid,user){
         return await User.update(user,{
+            where:{
+                id:uuid
+            }
+        });
+    }
+
+    async updatePassword(uuid,newPassword){
+        return await User.update({password: newPassword},{
             where:{
                 id:uuid
             }
