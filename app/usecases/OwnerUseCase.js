@@ -24,7 +24,12 @@ module.exports = class OwnerUseCase{
         validateFormatUUID(res,uuid);
         if (res.headersSent) return;
 
-        const owner = this.OwnerService.getByUUID(uuid);
+        const owner = await this.OwnerService.getByUUID(uuid);
+        
+        if(owner === null){
+            return res.status(404).json({message: "Dono não encontrado"});
+        }
+
         return owner;
     }
 
@@ -54,6 +59,8 @@ module.exports = class OwnerUseCase{
         const uuid = req.params.uuid;
         validateFormatUUID(res,uuid);
         if (res.headersSent) return;
+
+        await this.OwnerService.getByUUID(uuid);
     
         validateEmail(res,email);
         if (res.headersSent) return;
@@ -74,6 +81,8 @@ module.exports = class OwnerUseCase{
         const uuid = req.params.uuid;
         validateFormatUUID(res,uuid);
         if(res.headersSent) return;
+
+        await this.OwnerService.getByUUID(uuid);
 
         const owner = await this.OwnerService.delete(uuid);
 
