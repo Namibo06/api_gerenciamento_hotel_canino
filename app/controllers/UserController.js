@@ -52,14 +52,13 @@ module.exports = class UserController{
             await this.UserUseCase.updatePassword(req,res);
             return res.status(200).json({message: "Senha atualizada com sucesso"});
         }catch(error){
-            console.log("cheguei");
             console.log("Erro: " + error);
         }
     }
     
     async deleteUser(req,res) {
         try{
-            this.UserUseCase.deleteUser(req,res);
+            await this.UserUseCase.deleteUser(req,res);
     
             return res.status(204).send();
         }catch(error){
