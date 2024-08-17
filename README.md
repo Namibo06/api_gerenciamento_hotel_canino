@@ -48,5 +48,6 @@
 ## Swagger
 #### [Link Swagger]()
 
-// getUUID do owner,fica retornando null,sem registros
-// adicionar retorno 404 no delete quando não achar o registr,no user tá assim
+// proteger rotas com jwt
+// fazer parte de cors
+// incluir swagger
