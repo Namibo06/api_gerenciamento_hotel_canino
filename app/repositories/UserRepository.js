@@ -29,11 +29,10 @@ module.exports = class UserRepository{
         });
     }
 
-    async findByEmailAndPassword(email,password){
+    async findByEmail(email){
         return await User.findOne({
             where:{
-                email: email,
-                password: password
+                email: email
             }
         });
     }
