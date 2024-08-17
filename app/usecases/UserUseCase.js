@@ -57,8 +57,7 @@ module.exports = class UserUseCase{
         validateRequestLengthInCreate(res,first_name,last_name,phone,password);
         if(res.headersSent) return;
 
-        const createdUser = await this.UserService.create(data);
-        return createdUser;
+        return await this.UserService.create(data);
     }
 
     async updateUser(req,res){
@@ -68,10 +67,7 @@ module.exports = class UserUseCase{
         validateFormatUUID(res,uuid);
         if(res.headersSent) return;
 
-        const findUser = await this.findUserByUUID(req,res);
-        if(!findUser){
-            return res.status(404).json({message: "Usuário não encontrado"});
-        }
+        await this.findUserByUUID(req,res);
     
         validateEmail(res,email);
         if(res.headersSent) return;
@@ -93,10 +89,7 @@ module.exports = class UserUseCase{
         const uuid = req.params.uuid;
         const newPassword = req.body.password;
 
-        const findUser = await this.findUserByUUID(req,res);
-        if(!findUser){
-            return res.status(404).json({message: "Usuário não encontrado"});
-        }
+        await this.findUserByUUID(req,res);
 
         validatePasswordEmptyOrNull(res,newPassword);
         if(res.headersSent) return;
@@ -117,17 +110,8 @@ module.exports = class UserUseCase{
         validateFormatUUID(res,uuid);
         if(res.headersSent) return;
 
-        const findUser = await this.findUserByUUID(req,res);
-        if(!findUser){
-            return res.status(404).json({message: "Usuário não encontrado"});
-        }
+        await this.findUserByUUID(req,res);
 
-        const user = this.UserService.delete(uuid);
-
-        if(user.length === 0){
-            return res.status(404).json({message: "Usuário não encontrado"});
-        }
-
-        return user;
+        return this.UserService.delete(uuid);
     }
 }
