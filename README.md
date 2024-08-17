@@ -48,6 +48,5 @@
 ## Swagger
 #### [Link Swagger]()
 
-// adicionar o metodo para trocar senha do usuario
 // getUUID do owner,fica retornando null,sem registros
 // adicionar retorno 404 no delete quando não achar o registr,no user tá assim
