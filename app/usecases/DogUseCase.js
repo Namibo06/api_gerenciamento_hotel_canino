@@ -13,7 +13,7 @@ module.exports = class DogUseCase{
     }
 
     async listDogs(res){
-        const dogs = this.DogService.findAll();
+        const dogs = await this.DogService.findAll();
 
         if(dogs.length === 0){
             return res.status(404).json({message: "Nenhum registro encontrado"});
@@ -26,10 +26,10 @@ module.exports = class DogUseCase{
         validateFormatUUID(res,uuid);
         if (res.headersSent) return;
 
-        const dog = this.DogService.getByUUID(uuid);
-
-        if(dog.length === 0){
-            return res.status(404).json({message: "Registro não encontrado"});
+        const dog = await this.DogService.getByUUID(uuid);
+        
+        if(dog === null){
+            return res.status(404).json({message: "Cachorro não encontrado"});
         }
         return dog;
     }
@@ -80,6 +80,8 @@ module.exports = class DogUseCase{
         validateFormatUUID(res,uuid);
         if (res.headersSent) return;
 
+        await this.getDogByUUID(req,res);
+
         const { name, year, color, postage, race, deficiency, owners } = req.body;
     
         validationYearDog(res,year);
@@ -128,6 +130,8 @@ module.exports = class DogUseCase{
         const uuid = req.params.uuid;
         validateFormatUUID(res,uuid);
         if (res.headersSent) return;
+        
+        await this.getDogByUUID(req,res);
 
         const dog = await this.DogService.delete(uuid);
         
