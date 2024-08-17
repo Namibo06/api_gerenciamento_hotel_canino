@@ -25,8 +25,8 @@ module.exports = class UserService{
         return await this.UserRepository.delete(uuid);
     }
 
-    async findByEmailAndPassword(email,password){
-        return await this.UserRepository.findByEmailAndPassword(email,password);
+    async findByEmail(email){
+        return await this.UserRepository.findByEmail(email);
     }
 
     async updateToken(token,email){
