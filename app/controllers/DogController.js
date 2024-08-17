@@ -1,11 +1,3 @@
-const Dog = require('../models/Dog');
-const { validationYearDog } = require('../utils/validationYearDog');
-const { validationPostage } = require('../utils/validationPostage');
-const { validateFormatUUID } = require('../utils/validationUUID');
-const { validateDogLength } = require('../utils/validationDogLength');
-const { validateDogEmpty } = require('../utils/validationDogEmpty');
-const Owner = require('../models/Owner');
-
 const DogUseCase = require('../usecases/DogUseCase');
 
 module.exports = class DogController{
