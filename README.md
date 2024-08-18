@@ -10,35 +10,31 @@
 
 ----------------------------------------------
 
+## Pacotes para instalar
+### express - pg - sequelize
+#### ``npm install express pg sequelize``
+
+### Dotenv
+#### ``npm install dotenv``
+
+### Validator
+#### ``npm install validator``
+
+### JWT
+#### ``npm install jsonwebtoken``
+
+### ByCript
+#### ``npm install bcrypt``
+
+### Swagger
+#### ``npm install swagger-ui-express swagger-jsdoc``
+
+-----------------------------------------------
+
 ## Iniciar projeto
 ### ```npm init -y```
 
 -----------------------------------------------
-
-## Para instalar o pacote dotenv
-### ``npm install dotenv``
-
------------------------------------------------
-
-## Para instalar o pacote validator
-### ``npm install validator``
-
------------------------------------------------
-
-## Instalar express - pg - sequelize
-### ``npm install express pg sequelize``
-
-------------------------------------------
-
-## Instalar JWT
-### ``npm install jsonwebtoken``
-
-------------------------------------------
-
-## Instalar ByCript
-### ``npm install bcrypt``
-
-------------------------------------------
 
 ## Iniciar Servidor (Git bash)
 ### No terminal digite ou cole ``npm run start``
@@ -48,6 +44,4 @@
 ## Swagger
 #### [Link Swagger]()
 
-// proteger rotas com jwt
-// fazer parte de cors
 // incluir swagger
