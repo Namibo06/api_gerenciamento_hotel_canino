@@ -42,6 +42,4 @@
 ---------------------------------------------
 
 ## Swagger
-#### [Link Swagger]()
-
-// incluir swagger
+#### [Link Swagger](http://localhost:3000/api-docs)
