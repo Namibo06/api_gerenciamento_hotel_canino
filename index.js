@@ -23,25 +23,25 @@ const swaggerOptions = {
             version: '1.0.0',
             description: 'API RESTFull com Node.js e Express'
         },
-        serves: [
+        servers: [
             {
-                url: 'http://localhost:3000'
-            }
+                url: 'http://localhost:3000/api',
+            },
         ],
         components: {
             securitySchemes: {
                 bearerAuth: {
                     type: 'http',
                     scheme: 'bearer',
-                    bearerFormat: 'JWT'
-                }
-            }
+                    bearerFormat: 'JWT',
+                },
+            },
         },
         security: [
             {
-                bearerAuth: []
-            }
-        ]
+                bearerAuth: [],
+            },
+        ],
     },
     apis: ['./app/application/controllers/*.js']
 };
