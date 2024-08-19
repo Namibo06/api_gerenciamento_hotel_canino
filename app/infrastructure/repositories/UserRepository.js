@@ -46,8 +46,7 @@ module.exports = class UserRepository{
         return await User.findOne({
             where:{
                 email: email
-            },
-            attributes: ["email"]
+            }
         });
     }
 
