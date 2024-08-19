@@ -19,7 +19,7 @@ module.exports = class UserUseCase{
         const users = await this.UserService.findAll();
 
         if(users.length === 0){
-            return res.status(404).json({message: "Nenhum  registro encontrado"});    
+            return res.status(404).json({message: "Nenhum registro encontrado"});    
         }
         return users;
     }
