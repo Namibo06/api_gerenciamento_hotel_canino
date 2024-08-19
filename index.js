@@ -21,7 +21,13 @@ const swaggerOptions = {
         info: {
             title: 'Gerenciador Hotel Canino',
             version: '1.0.0',
-            description: 'API RESTFull com Node.js e Express'
+            description: 'API RESTFull com Node.js e Express',
+            contact:{
+                name: 'Joalisson Pinto Maia',
+                email: 'namibo654@gmail.com',
+                url: 'https://portifolio-joalisson.vercel.app/',
+                phone: '+55-75-99288-9592'
+            }
         },
         servers: [
             {
