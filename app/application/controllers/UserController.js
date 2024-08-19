@@ -5,6 +5,50 @@ module.exports = class UserController{
         this.UserUseCase = new UserUseCase();
     }
 
+    /**
+     * @swagger
+     * /users:
+     *   get:
+     *     summary: Lista todos os usuários
+     *     security: 
+     *       - bearerAuth: []
+     *     responses: 
+     *       200:
+     *         description: Usuários listados
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: array
+     *               items:
+     *                 type: object
+     *                 properties:
+     *                   id:
+     *                     type: string
+     *                     format: uuid
+     *                   first_name:
+     *                     type: string
+     *                   last_name:
+     *                     type: string
+     *                     description: Campo opcional
+     *                   email: 
+     *                     type: string
+     *                   phone:
+     *                     type: string
+     *                     description: Campo opcional
+     *                   createdAt:
+     *                     type: string
+     *                     format: timestamp
+     *                   updatedAt:
+     *                     type: string
+     *                     format: timestamp
+     *       401:
+     *         description: Não autorizado
+     *       403:
+     *         description: Acesso negado
+     *       404:
+     *         description: Nenhum registro encontrado
+     *
+     */
     async listUsers (req,res) {
         try{
             const users = await this.UserUseCase.findAllUsers(res);
@@ -30,8 +74,6 @@ module.exports = class UserController{
      * /users:
      *   post:
      *     summary: Cria um novo Usuário
-     *     security:
-     *       - bearerAuth: []
      *     requestBody:
      *       required: true
      *       content:
