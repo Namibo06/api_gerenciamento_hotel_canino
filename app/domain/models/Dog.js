@@ -44,7 +44,7 @@ const dog = sequelize.define('tb_dog',{
 dog.associate = function(models){
     dog.belongsToMany(models.owner,{
         through: 'tb_owner_dogs',
-        as: 'owner',
+        as: 'dogOwners',
         foreignKey: 'dogId',
     });
 };
