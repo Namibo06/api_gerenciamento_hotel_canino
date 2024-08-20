@@ -8,10 +8,10 @@ function authenticateToken(req,res,next) {
 
     const parts = authHeader.split(' ');
 
-    const token = parts[1];
+    const token = parts[2];
 
     if(token == null){
-        return res.status(401).json({message: "Não autorizado"}); 
+        return res.status(401).json({message: "Acesso negado. Token Inválido ou vazio"}); 
     }
 
     try {
@@ -20,7 +20,6 @@ function authenticateToken(req,res,next) {
         next();
     } catch (err) {
         console.log(err);
-        return res.status(403).json({message: "Acesso negado. Token Inválido"});
     }
 }
 
