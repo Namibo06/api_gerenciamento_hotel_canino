@@ -70,7 +70,7 @@ module.exports = class DogUseCase{
             });
         }
 
-        const createdDog = await this.DogService.create(req.body);
+        const createdDog = await this.DogService.create(req.body,owners);
 
         return createdDog;
     }

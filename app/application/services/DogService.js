@@ -13,8 +13,8 @@ module.exports = class DogService{
         return await this.DogRepository.getByUUID(uuid);
     }
 
-    async create(dog){
-        return await this.DogRepository.create(dog);
+    async create(dog,owners){
+        return await this.DogRepository.create(dog,owners);
     }
 
     async update(uuid,dog){
