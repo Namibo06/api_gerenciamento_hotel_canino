@@ -1,7 +1,7 @@
 const { DataTypes, UUIDV4 } = require('sequelize');
 const {sequelize} = require('../../infrastructure/config/Database');
 
-const owner = sequelize.define('tb_owner',{
+const owner = sequelize.define('tb_owners',{
     id:{
         primaryKey: true,
         type: DataTypes.UUID,

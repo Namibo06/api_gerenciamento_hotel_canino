@@ -1,7 +1,7 @@
 const { DataTypes,UUIDV4 } = require('sequelize');
 const {sequelize} = require('../../infrastructure/config/Database');
 
-const dog = sequelize.define('tb_dog',{
+const dog = sequelize.define('tb_dogs',{
     id:{
         primaryKey: true,
         type: DataTypes.UUID,
