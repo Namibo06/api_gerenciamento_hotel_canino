@@ -5,6 +5,42 @@ module.exports = class LoginController{
         this.LoginUseCase = new LoginUseCase();
     }
 
+    /**
+     * @swagger
+     * /login:
+     *   post:
+     *     summary: Autentica um usuário e retorna um token
+     *     tags: [Login]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               email:
+     *                 type: string
+     *                 description: O e-mail do usuário
+     *               password:
+     *                 type: string
+     *                 description: A senha do usuário
+     *     responses:
+     *       200:
+     *         description: Usuário autenticado com sucesso
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 message:
+     *                   type: string
+     *                 token:
+     *                   type: string
+     *       400:
+     *         description: Requisição inválida (e-mail ou senha faltando)
+     *       401:
+     *         description: Autenticação falhou (e-mail ou senha incorretos)
+     */
     async authenticate(req,res){
         try{
             const token = await this.LoginUseCase.authenticate(req,res);
@@ -15,6 +51,37 @@ module.exports = class LoginController{
         }
     }
 
+    /**
+     * @swagger
+     * /verifyToken:
+     *   get:
+     *     summary: Verifica a validade de um token JWT
+     *     tags: [Login]
+     *     security:
+     *       - bearerAuth: []
+     *     responses:
+     *       200:
+     *         description: Token válido
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 message:
+     *                   type: string
+     *                 user:
+     *                   type: object
+     *                   properties:
+     *                     id:
+     *                       type: string
+     *                       format: uuid
+     *                     email:
+     *                       type: string
+     *       401:
+     *         description: Token inválido ou não fornecido
+     *       403:
+     *         description: Acesso negado
+     */
     async verifyToken(req,res){
         try {
             const user = await this.LoginUseCase.verifyToken(req.headers['authorization']);
