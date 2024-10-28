@@ -177,7 +177,7 @@ module.exports = class OwnerController{
      *       404:
      *         description: Dono não encontrado
      */
-    async deleteUser(req,res) {
+    async deleteOwner(req,res) {
         try{
             await this.OwnerUseCase.deleteOwner(req,res);
     
