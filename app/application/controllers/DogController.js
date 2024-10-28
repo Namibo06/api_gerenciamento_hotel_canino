@@ -7,7 +7,7 @@ module.exports = class DogController{
 
     /**
      * @swagger
-     * /dogs:
+     * /dogs/:
      *   get:
      *     summary: Lista todos os cães
      *     tags: [Dog]
@@ -101,7 +101,7 @@ module.exports = class DogController{
     
     /**
      * @swagger
-     * /dogs:
+     * /dogs/:
      *   post:
      *     summary: Cria um novo cão
      *     tags: [Dog]

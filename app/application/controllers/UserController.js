@@ -7,7 +7,7 @@ module.exports = class UserController{
 
     /**
      * @swagger
-     * /users:
+     * /users/:
      *   get:
      *     summary: Lista todos os usuários
      *     tags: [User]
@@ -121,7 +121,7 @@ module.exports = class UserController{
     
     /**
      * @swagger
-     * /users:
+     * /users/:
      *   post:
      *     summary: Cria um novo Usuário
      *     tags: [User]

@@ -7,7 +7,7 @@ module.exports = class OwnerController{
 
     /**
      * @swagger
-     * /owners:
+     * /owners/:
      *   get:
      *     summary: Lista todos os donos
      *     tags: [Owner]
@@ -84,7 +84,7 @@ module.exports = class OwnerController{
     
     /**
      * @swagger
-     * /owners:
+     * /owners/:
      *   post:
      *     summary: Cria um novo dono
      *     tags: [Owner]

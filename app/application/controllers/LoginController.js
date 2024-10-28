@@ -7,7 +7,7 @@ module.exports = class LoginController{
 
     /**
      * @swagger
-     * /login:
+     * /login/:
      *   post:
      *     summary: Autentica um usuário e retorna um token
      *     tags: [Login]
@@ -53,7 +53,7 @@ module.exports = class LoginController{
 
     /**
      * @swagger
-     * /verifyToken:
+     * /verifyToken/:
      *   get:
      *     summary: Verifica a validade de um token JWT
      *     tags: [Login]
