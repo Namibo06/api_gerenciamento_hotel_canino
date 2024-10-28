@@ -6,13 +6,19 @@ const { sequelize } = require("../config/Database");
 module.exports = class DogRepository{
     async findAll(){
         const dogs = await Dog.findAll({
-            include: {
-                model: Owner,
-                as: 'dogOwners',
-               /* through: {
-                    attributes: []  // Opcional: se você não quiser retornar os dados da tabela de junção
-                }*/
-            }
+            include: [
+                {
+                    model: Owner,
+                    as: 'dogOwners',
+                },
+                {
+                    model: Restriction,
+                    as: 'dogRestrictions', 
+                   /* through: {
+                        attributes: []  // Opcional: se você não quiser retornar os dados da tabela de junção
+                    }*/
+                }
+            ]
         });
         return dogs;
     }
@@ -23,10 +29,16 @@ module.exports = class DogRepository{
             where:{
                 id: uuid
             },
-            include: {
-                model: Owner,
-                as: 'dogOwners',
-            }
+            include: [
+                {
+                    model: Owner,
+                    as: 'dogOwners',
+                },
+                {
+                    model: Restriction,
+                    as: 'dogRestrictions', 
+                }
+            ]
         });
     }
 
