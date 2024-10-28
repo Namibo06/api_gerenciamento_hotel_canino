@@ -20,10 +20,10 @@ module.exports = class LoginUseCase{
         if(!login){
             return res.status(404).json({message: "Usuário não encontrado"});
         }
-
-        const validatePassword = await bcrypt.compare(password,login.password);
-
-        if(validatePassword === false){
+    
+        const isValidPassword = await bcrypt.compare(password,login.password);
+        
+        if(isValidPassword === false){
             return res.status(400).json({message: "Senhas não batem"});
         }
         
