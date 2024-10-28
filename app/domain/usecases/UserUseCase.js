@@ -7,7 +7,7 @@ const { validatePasswordEmptyOrNull,validatePasswordLength } = require('../../in
 
 const bcrypt = require('bcrypt');
 
-//o quano torna imprevisivel
+//o quanto torna imprevisivel
 const salt = bcrypt.genSaltSync(10);
 
 module.exports = class UserUseCase{
@@ -62,6 +62,10 @@ module.exports = class UserUseCase{
 
     async updateUser(req,res){
         const { first_name, last_name, email, phone } = req.body;
+
+        if(req.body.password){
+            return res.status(400).json({message: "Houve falha ao receber password no update user"});
+        }
     
         const uuid = req.params.uuid;
         validateFormatUUID(res,uuid);
@@ -96,7 +100,9 @@ module.exports = class UserUseCase{
         validatePasswordLength(res,newPassword);
         if(res.headersSent) return;
 
-        const updatePassword = await this.UserService.updatePassword(uuid,newPassword);
+        const newPasswordEncrypted =  bcrypt.hashSync(newPassword,salt);
+
+        const updatePassword = await this.UserService.updatePassword(uuid,newPasswordEncrypted);
 
         if(!updatePassword){
             return res.status(500).json({message: "Houve falha ao tentar atualizar senha"});
