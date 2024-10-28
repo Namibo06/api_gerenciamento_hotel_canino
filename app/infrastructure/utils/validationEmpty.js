@@ -21,8 +21,15 @@ function validateRequestEmptyInUpdate(res,firstName,email){
     }
 }
 
+function validateRestriction(res,type_name,description){
+    if(validator.isEmpty(type_name) || validator.isEmpty(description)){
+        return res.status(400).json({message:"Campos obrigatórios vazios"});
+    }
+}
+
 module.exports = {
     validateEmpty,
     validateRequestEmptyInCreate,
     validateRequestEmptyInUpdate,
+    validateRestriction,
 };

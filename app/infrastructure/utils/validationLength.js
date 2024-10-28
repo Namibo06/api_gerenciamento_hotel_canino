@@ -35,8 +35,15 @@ function validateRequestLengthInCreate(res,firstName,lastName,phone,password){
     }
 }
 
+function validateTypeNameRestrictionLength(res,type_name){
+    if(type_name.length > 20){
+        return res.status(400).json({message: "Nome do tipo deve ser menor ou igual a 20 caracteres"});
+    }
+}
+
 module.exports = {
     validateLength,
     validateRequestLength,
     validateRequestLengthInCreate,
+    validateTypeNameRestrictionLength,
 };
