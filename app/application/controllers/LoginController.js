@@ -84,7 +84,22 @@ module.exports = class LoginController{
      */
     async verifyToken(req,res){
         try {
-            const user = await this.LoginUseCase.verifyToken(req.headers['authorization']);
+            const data = await this.LoginUseCase.verifyToken(req.headers['authorization']);
+            const issueAt = new Date(data.iat * 1000);
+            const expiration = new Date (data.exp * 1000);
+
+            const dateIssue = new Date(issueAt.getTime() - 3 * 60 * 60 * 1000);
+            const dateExpiration = new Date(expiration.getTime() - 3 * 60 * 60 * 1000);
+
+            const dateIssueString = dateIssue.toLocaleString();
+            const dateExpirationString = dateExpiration.toLocaleString();
+
+            const user = {
+                "email" : data.email,
+                "issueAt" : dateIssueString,
+                "expirationToken" :dateExpirationString
+            };
+            
             return res.status(200).json({ message: "Token válido", user });
         } catch (error) {
             console.error(error);
