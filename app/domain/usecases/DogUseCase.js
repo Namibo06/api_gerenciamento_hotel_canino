@@ -5,11 +5,13 @@ const { validateFormatUUID } = require('../../infrastructure/utils/validationUUI
 const { validateDogLength } = require('../../infrastructure/utils/validationDogLength');
 const { validateDogEmpty } = require('../../infrastructure/utils/validationDogEmpty');
 const OwnerService = require('../../application/services/OwnerService');
+const RestrictionService = require('../../application/services/RestrictionService');
 
 module.exports = class DogUseCase{
     constructor(){
         this.DogService = new DogService();
         this.OwnerService = new OwnerService();
+        this.RestrictionService = new RestrictionService();
     }
 
     async listDogs(res){
@@ -35,7 +37,7 @@ module.exports = class DogUseCase{
     }
 
     async createDog(req,res){
-        const { name, year, color, postage, race, deficiency, owners } = req.body;
+        const { name, year, color, postage, race, deficiency, ownersCpf, restrictionsName  } = req.body;
 
         validationYearDog(res,year);
         if (res.headersSent) return;
@@ -46,33 +48,57 @@ module.exports = class DogUseCase{
         validateDogEmpty(res,name,color,year,postage,deficiency);
         if (res.headersSent) return;
 
-        let listOwner = [];
-        for (let i = 0; i < owners.length; i++) {
-            let ownerId = owners[i];
+        if (!ownersCpf || !Array.isArray(ownersCpf) || ownersCpf.length === 0) {
+            return res.status(400).json({
+                error: "O campo 'ownersCpf' é obrigatório e não pode ser vazio."
+            });
+        }
 
-            validateFormatUUID(res,ownerId);
-            if (res.headersSent) return;
+        //validando owners
+        let listOwner = [];
+        for (let i = 0; i < ownersCpf.length; i++) {
+            let owner = ownersCpf[i];
 
             try {
-                let ownerExists = await this.OwnerService.getByUUID(ownerId);
+                let ownerExists = await this.OwnerService.cpfExists(owner);
                 
                 if(!ownerExists){
-                    listOwner.push(ownerId);
+                    listOwner.push(owner);
                 }
             } catch (error) {
-                console.log("Erro ao verificar o dono: " + ownerId);
+                console.log("Erro ao verificar o dono: " + owner);
             }
         }
 
         if (listOwner.length > 0) {
             return res.status(400).json({
-                error: `Os seguintes IDs de donos são inválidos: ${listOwner.join(', ')}`
+                error: `Os seguintes CPF's de donos são inválidos: ${listOwner.join(', ')}`
             });
         }
 
-        const createdDog = await this.DogService.create(req.body,owners);
+        //validando restrictions
+        let listRestrictions = [];
+        for (let i = 0; i < restrictionsName.length; i++) {
+            let restriction = restrictionsName[i];
 
-        return createdDog;
+            try {
+                let restrictionExists = await this.RestrictionService.typeNameExists(restriction);
+                
+                if (!restrictionExists) {
+                    listRestrictions.push(restriction);
+                }
+            } catch (error) {
+                console.log("Erro ao verificar a restrição: " + restriction);
+            }
+        }
+
+        if (listRestrictions.length > 0) {
+            return res.status(400).json({
+                error: `As seguintes restrições são inválidas: ${listRestrictions.join(', ')}`
+            });
+        }
+
+        return await this.DogService.create(req.body,ownersCpf,restrictionsName);
     }
 
     async updateDog(req,res){
@@ -80,10 +106,16 @@ module.exports = class DogUseCase{
         validateFormatUUID(res,uuid);
         if (res.headersSent) return;
 
-        await this.getDogByUUID(req,res);
+        const existsDog = await this.DogService.getByUUID(uuid);
+        if(!existsDog){
+            return res.status(404).send({message:"Cachorro não encontrado"});
+        }
+        
+        const { name, year, color, postage, race, deficiency, ownersCpf, restrictionsName  } = req.body;
 
-        const { name, year, color, postage, race, deficiency, owners } = req.body;
-    
+        console.log("cpf="+ownersCpf);
+        console.log("name="+restrictionsName);
+
         validationYearDog(res,year);
         if (res.headersSent) return;
         validationPostage(res,postage);
@@ -93,31 +125,57 @@ module.exports = class DogUseCase{
         validateDogEmpty(res,name,color,year,postage,deficiency);
         if (res.headersSent) return;
 
-        let listOwner = [];
-        for (let i = 0; i < owners.length; i++) {
-            let ownerId = owners[i];
+        if (!ownersCpf || !Array.isArray(ownersCpf) || ownersCpf.length === 0) {
+            return res.status(400).json({
+                error: "O campo 'ownersCpf' é obrigatório e não pode ser vazio."
+            });
+        }
 
-            validateFormatUUID(res,ownerId);
-            if (res.headersSent) return;
-            
+        //validando owners
+        let listOwner = [];
+        for (let i = 0; i < ownersCpf.length; i++) {
+            let owner = ownersCpf[i];
+
             try {
-                let ownerExists = await this.OwnerService.getByUUID(ownerId);
+                let ownerExists = await this.OwnerService.cpfExists(owner);
                 
                 if(!ownerExists){
-                    listOwner.push(ownerId);
+                    listOwner.push(owner);
                 }
             } catch (error) {
-                console.log("Erro ao verificar o dono: " + ownerId);
+                console.log("Erro ao verificar o dono: " + owner);
             }
         }
 
         if (listOwner.length > 0) {
             return res.status(400).json({
-                error: `Os seguintes IDs de donos são inválidos: ${listOwner.join(', ')}`
+                error: `Os seguintes CPF's de donos são inválidos: ${listOwner.join(', ')}`
             });
         }
 
-        const updatedDog = await this.DogService.update(uuid,req.body);
+        //validando restrictions
+        let listRestrictions = [];
+        for (let i = 0; i < restrictionsName.length; i++) {
+            let restriction = restrictionsName[i];
+
+            try {
+                let restrictionExists = await this.RestrictionService.typeNameExists(restriction);
+                
+                if (!restrictionExists) {
+                    listRestrictions.push(restriction);
+                }
+            } catch (error) {
+                console.log("Erro ao verificar a restrição: " + restriction);
+            }
+        }
+
+        if (listRestrictions.length > 0) {
+            return res.status(400).json({
+                error: `As seguintes restrições são inválidas: ${listRestrictions.join(', ')}`
+            });
+        }
+
+        const updatedDog = await this.DogService.update(uuid,req.body,ownersCpf,restrictionsName);
 
         if(!updatedDog){
             return res.status(400).json({message: "Houve falha ao tentar atualizar"});
