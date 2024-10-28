@@ -25,6 +25,10 @@ module.exports = class OwnerService{
         return await this.OwnerRepository.delete(uuid);
     }
 
+    async emailExists(email){
+        return await this.OwnerRepository.emailExists(email);
+    }
+
     async cpfExists(cpf){
         return await this.OwnerRepository.cpfExists(cpf);
     }
