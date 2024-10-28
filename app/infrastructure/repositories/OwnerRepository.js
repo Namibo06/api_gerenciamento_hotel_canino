@@ -29,6 +29,13 @@ module.exports = class UserRepository{
       });
    }
 
+   async emailExists(email){
+      return await Owner.findOne({
+         where: {email},
+         attributes: ['id']
+      });
+   }
+
    async cpfExists(cpf){
       return await Owner.findOne({
          where: {
